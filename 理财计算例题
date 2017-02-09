@@ -1,0 +1,29 @@
+/*
+ * 小明每天得到5块的零花钱，而他每次都会从中拿出2.5块钱存入罐中，
+ * 他的目标是100元，但是他每隔5天都会从罐中取出6元，如果一直持续这样的规律，他要存多少天才能存够100块*/
+
+import java.util.*;
+public class Test {
+	public static void main(String[] args){
+		int sum = 100;
+		int day = 1;
+		double db=2.5;
+		double sp=6.0;
+		double dsum=0.0;
+		while(true)
+		{
+			dsum=dsum+db;
+			if(day%5==0){
+				dsum=dsum-6;
+				System.out.println("第"+day+"天花去了6元，还剩下"+dsum+"元");
+			}
+			if(dsum>=sum)
+			{
+				System.out.println("要经过连续存储"+day+"天，才能存上100元");
+				break;
+			}
+			day++;
+		}
+		
+	}
+}
