@@ -1,0 +1,54 @@
+/*
+ * 奇数阶幻方指的是由1~n*n个数据组成的矩阵
+ * 要求：阶数n必须是奇数，每行每列以及对角线之和必须相等
+ * 算法：
+ * （1）第一个数1必须放在最后一行中间列的位置
+ * （2）下一个数要放在本数的右下方，这时，会有如下几个状况发生，
+ * 1）若右下方出了方阵的行，则下一个数放在同列的第一行。
+ * 2）若右下方出了方阵的列，则下一个数放在同行的第一列。
+ * */
+import java.util.*;
+public class Test {
+	public static void main(String[] args){
+		System.out.print("请输入n:");
+		Scanner in =new Scanner (System.in);
+		int n=in.nextInt();
+		if (n%2==0)
+		{
+			System.out.println("请重新输入");
+			return ;
+		}
+
+		
+		int[] array[]=new int[n][n];
+		int a=n-1;//获取最后一行的的行下标
+		int b=n/2;//获取中间列的下标
+		//为给最后一行的中间元素赋值为1
+		for(int i=1;i<=n*n;i++)
+		{
+			array[a++][b++]=i;
+			if(i%n==0)//判断当前i的值是否是n的倍数  如果是则放在上行同列的位置上
+			{			//上条语句多加了则要多减一次
+				a=a-2;
+				b=b-1;
+			}
+			else //否则放在在一行的下一列上（右下方）
+			{			//特殊状况调整
+				a=a%n;
+				b=b%n;
+			}
+		}
+		System.out.println("奇数阶幻方:");
+		for(int i=0;i<n;i++)
+		{
+			for (int j=0;j<n;j++)
+			{
+				if(array[i][j]<10)
+					System.out.print(" "+"0"+array[i][j]+" ");
+				else	
+					System.out.print(" "+array[i][j]+" ");
+			}
+			System.out.println();	
+		}
+	}
+}
