@@ -1,0 +1,81 @@
+/*打印任意一年的日历
+ * */
+
+import java.util.*;
+public class Test {
+	static int  year,weekDay;
+	static boolean isLeapYear(int year)
+	{
+		return ((year%4==0&&year%10!=0)||(year%400==0));
+	}
+	
+	static int firstWeekDayOfYear(int year)
+	{
+		return ((year-1)+ (year-1)/4-(year-1)/100+(year-1)/400+1)%7;
+		/*long day=year*365;
+		for(int i=1;i<year;i++)
+			if(isLeapYear(i))
+				day=day+1;
+		return   (int ) day%7;*/
+	}
+	
+	public static int getMonthDays(int month){
+		switch(month)
+		{
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12: 
+			return 31; 
+		case 4:
+		case 6:
+		case 9:
+		case 11: 
+			return 30; 
+		case 2:
+			if(isLeapYear(month))
+				return 29;
+			else 
+				return 28;
+		default:return 0;
+			
+		}
+	}
+	
+	public static void showMonths(){
+		for(int month=1;month<=12;month++)
+		{
+			System.out.println(month+"月份");
+			System.out.println("SUN MON TUE WED THU FRI SAT");
+			for(int fd=1;fd<=weekDay;fd++)
+			{
+				System.out.print(" 00 ");
+			}
+			int monthDay=getMonthDays(month);
+			for(int day=1;day<=monthDay;day++)
+			{
+				if(day<10)
+					System.out.print(" "+"0"+day+" ");
+				else 
+					System.out.print(" "+day+" ");
+				weekDay=(weekDay+1)%7;
+				if(weekDay==0)
+					System.out.println();
+			}
+			System.out.println();
+		}
+	}
+	
+	public static void main(String[] args){
+		System.out.print("请输如一个年份：");
+		Scanner in=new Scanner(System.in);
+		String str=in.nextLine();
+		year=Integer.parseInt(str);
+		weekDay=firstWeekDayOfYear(year);
+		System.out.println("\n   " +year+"年 ");
+		showMonths();
+	}
+}
