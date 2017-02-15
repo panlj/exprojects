@@ -1,0 +1,140 @@
+/** 用delte()方法时，如果此路径表示一个目录，则此目录必须为空才能删除*/
+import java.io.*;
+import java.util.*;
+public class Test {
+	public static void main(String[] args){
+		String path ="D:/temp";
+		File dirFile = new File(path);
+	}
+	public boolean createDirectory(String dir)
+	{
+		File dirFile=new File(dir);
+		if(dirFile.exists())//检查该目录是否存在
+		{
+			System.out.println("该目录已经存在！");
+			return false;
+		}
+		if(!dir.endsWith(File.separator))
+			//为了方便获取该目录下的文件路径，如果该目录不是文件分隔符结尾的，则给其添加上文件分隔符
+		{
+			dir=dir+File.separator;
+		}
+		if(dirFile.mkdirs())//创建目录
+		{
+			System.out.println("成功创建"+dir);
+			return true;
+		}else{
+			System.out.println("创建失败！");
+			return false;
+		}
+	}
+	
+	public boolean delDirectory(String dirName)
+	{
+		if(!dirName.endsWith(File.separator))
+		{
+			dirName=dirName+File.separator;
+		}
+		File dirFile =new File(dirName);
+		if((!dirFile.exists())||(!dirFile.isDirectory()))
+		{
+			System.out.println("该目录不存在！无法进行删除");
+			return false;
+		}
+		/** 判断删除指定目录（文件夹）以及目录下的文件是否成功，成功则返回TRUE*/
+		File [] fileList=dirFile.listFiles();
+		boolean flag=true;
+		for(int i=0;i<fileList.length;i++)
+		{
+			if(fileList[i].isFile())
+			{
+				flag=delFile(fileList[i].getAbsolutePath());
+				if(!flag)
+					break;
+			}
+			else if(fileList[i].isDirectory())
+			{
+				flag = delDirectory(fileList[i].getAbsolutePath());
+				if(!flag)
+					break;
+			}
+		}
+		if(!flag)
+		{
+			System.out.println("删除失败！");
+			return false ;
+		}
+		if(dirFile.delete())
+		{
+			System.out.println("删除成功！");
+			return true;
+		}else{
+			System.out.println("删除失败！");
+			return false ;
+		}
+	}
+	
+	public String createFile(String fileName,String suffix,String dirName)
+		//创建文件，若创建成功则返回文件的绝对路径
+	{
+		File tempFile=null;
+		if(dirName==null)
+			//在默认的目录下创建文件
+		{
+			try {
+				tempFile = File.createTempFile(fileName, suffix);
+				return tempFile.getAbsolutePath();
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				System.out.println("创建文件失败！");
+				return null;
+			}//catch
+		}
+		else
+		{//在指定的目录下创建文件
+			File dir=new File(dirName);
+			if(!dir.exists())
+				//判断目录是否存在，不存在则创建
+			{
+				if(!createDirectory(dirName))
+				{
+					System.out.println("创建目录失败！");
+					return null;
+				}
+			}
+			try {
+				tempFile = File.createTempFile(fileName, suffix, dir);
+				return tempFile.getAbsolutePath();
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				System.out.println("创建文件失败！");
+				return null;
+			}//catch	
+		}//else
+	}
+	
+	public boolean delFile(String fileName)
+	{
+		File file=new File(fileName);
+		if(file.exists() && file.isFile())
+		{
+			if(file.delete())
+			{
+				System.out.println("成功删除文件！");
+				return true;
+			}else
+			{
+				System.out.println("删除文件失败！");
+				return false;
+			}
+		}
+		else
+		{
+			System.out.println(fileName+"文件不存在，删除文件失败！");
+			return false;
+		}
+	}
+	
+}
