@@ -1,0 +1,80 @@
+import java.util.Random;
+
+/***/
+public class Test{
+	static Random rd=new Random(); 
+    public static void main(String[] args) 
+    { 
+    	numCode();
+    	charCode();
+    	cnsCode();
+    	mixCode();
+  
+    }  
+    
+    public static void numCode(){
+    	int temp=0;
+    	System.out.println("获取5位数字验证码：");
+    	for(int i=0;i<5;i++)
+    	{
+    		temp=rd.nextInt(10);
+    		//随机产生数字0~9
+    		System.out.print(temp+" ");
+    	}
+    	System.out.println("");
+    }
+    public static  void charCode(){
+    	int temp=0;
+    	System.out.println("获取5位字符验证码：");
+    	for(int i=0;i<5;i++)
+    	{
+    		temp=65+rd.nextInt(58);//a~z(65~90),A~Z(97~122)
+    		if(temp<=96&&temp>=91) //去掉中间的标点符号
+    		{
+    			if(i==0)
+    				{
+    				i=0;
+    				}
+    			else 
+    			{
+    				i--;
+    			}
+    		}
+    		else{
+    			System.out.print((char)temp+" ");
+    		}
+    		
+    	}
+    	System.out.println("");
+    }
+    public static  void cnsCode(){
+    	int temp=0;
+    	System.out.println("获取5位汉字验证码：");
+    	for(int i=0;i<5;i++)
+    	{
+    		temp=20000+rd.nextInt(10000);//一部分汉字的ASCII码值是20000~29999
+    		System.out.print((char)temp+" ");
+    	}
+    	System.out.println("");
+    }
+    
+    public static  void mixCode(){
+    	int temp=0;
+    	System.out.println("获取5位混合验证码：");
+    	for(int i=0;i<5;i++)
+    	{
+    		temp=rd.nextInt(123);
+    		if(temp<65)
+    		{
+    			System.out.print(temp%10+" ");//确保数字在0~9之间
+    		}
+    		else
+    		{
+    			System.out.print((char)temp+" ");
+    		}
+    		
+    	}
+    	System.out.println("");
+    }
+}
+
