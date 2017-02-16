@@ -1,0 +1,41 @@
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Random;
+
+/***/
+public class Test{
+    public static void main(String[] args) 
+    { 
+    	int min=3;
+    	int max=12;
+    	int len=6;
+    	int numlen=max-min+1;
+    	ArrayList list =new ArrayList();
+    	for(int i=min;i<=max;i++)
+    	{
+    		list.add(new Integer(i));
+    	}
+    	Random rd=new Random();
+    	ArrayList result=new ArrayList();
+    	while(result.size()<len)
+    	{
+    		int index=rd.nextInt(numlen); 
+    		result.add(list.get(index));
+    		list.remove(index);
+    		numlen--;
+    	}
+    	printArray((Integer[]) result.toArray(new Integer[0]));
+    	
+  
+    }  
+    public static void  printArray(Integer[] data){
+    	if(data !=null){
+    		for(int i=0;i<data.length;i++)
+    		{
+    			System.out.print(data[i]+"\t");
+    		}
+    	}
+    	System.out.println( );
+    }
+}
+   
